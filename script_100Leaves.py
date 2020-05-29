@@ -57,7 +57,7 @@ if __name__ == '__main__':
                 'View': layers,
                 'dims': dims,
                 'drop_prob': 0.2,
-                'learning_rate': 1e-8,
+                'learning_rate': 1e-7,
                 'batch_size': 1600,
                 'num_epochs': 1000,
                 'model_path': './Log/' + dataset_name + '/' + dataset_name + '_model.pkl',

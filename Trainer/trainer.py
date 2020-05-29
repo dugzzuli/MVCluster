@@ -75,21 +75,25 @@ class Trainer(object):
             for i in range(self.View_num):
                 loss+=  tf.reduce_mean(self.get_2nd_loss(self.vList[i], reconList[i], self.beta_W))
 
-
-        consiste_loss=tf.reduce_mean(tf.reduce_sum(tf.square(netList[0] - netList[1]), 1))
+        consiste_loss=0
+        for i in range(self.View_num):
+            for j in range(i+1,self.View_num):
+                print(i,' ',j)
+                consiste_loss+=tf.reduce_mean(tf.reduce_sum(tf.square(netList[i] - netList[j]), 1))
 
         loss = loss+self.ccsistent_loss*consiste_loss
 
 
         vars_net = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'V1_encoder')
-        vars_att = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'V2_encoder')
+        for i in range(self.View_num):
+            vars_net+= tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'V'+(str(i+1))+'_encoder')
 
 
 
 
         print(vars_net)
 
-        opt = tf.train.AdamOptimizer(self.learning_rate).minimize(loss, var_list=vars_net + vars_att)
+        opt = tf.train.AdamOptimizer(self.learning_rate).minimize(loss, var_list=vars_net)
 
         return opt, loss
 
