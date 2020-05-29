@@ -83,6 +83,11 @@ class Trainer(object):
 
         loss = loss+self.ccsistent_loss*consiste_loss
 
+        reg_set = tf.get_collection(
+            tf.GraphKeys.REGULARIZATION_LOSSES)  # (4)则REGULARIAZTION_LOSSES集合会包含所有被weight_decay后的参数和，将其相加
+        l2_loss = tf.add_n(reg_set)
+
+        loss+=l2_loss
 
         vars_net = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'V1_encoder')
         for i in range(self.View_num):

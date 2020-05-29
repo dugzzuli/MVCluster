@@ -46,7 +46,7 @@ if __name__=='__main__':
         'pretrain_params_path': './Log/'+dataset_name+'/pretrain_params.pkl'
     }
     
-    with open('./result/'+dataset_name+'.txt',"w") as f:
+    with open('./result/' + dataset_name+'_'+str(beta_W)+ '.txt', "w") as f:
         # for beta_i in np.transpose([1,10,50,100,200]):
         #     for alpha_i in [0.001,0.01,0.1,1,10,100]:
         #         for gama_i in [0.001,0.01,0.1,1,10,100]:

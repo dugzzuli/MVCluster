@@ -2,7 +2,7 @@ import tensorflow as tf
 import os
 import pickle
 from Utils.utils import *
-
+from tensorflow.contrib.layers import l2_regularizer
 
 w_init = lambda:tf.random_normal_initializer(stddev=0.02)
 
@@ -16,6 +16,10 @@ class Model(object):
         self.pretrain_params_path = config['pretrain_params_path']
 
         self.num_View1_layers = len(self.View1)
+
+        weight_decay = self.config["weight_decay"]  # (1)定义weight_decay
+        self.l2_reg = tf.contrib.layers.l2_regularizer(weight_decay)  # (2)定义l2_regularizer()
+
 
         if self.is_init:
             if os.path.isfile(self.pretrain_params_path):
@@ -39,9 +43,12 @@ class Model(object):
                     print('V'+view+'_encoder:=====cur_input=====:'+str(i))
                     cur_input = tf.layers.dense(cur_input, units=struct[i],
                                                 kernel_initializer=tf.constant_initializer(self.W_init[name]),
-                                                bias_initializer=tf.constant_initializer(self.b_init[name]))
+                                                bias_initializer=tf.constant_initializer(self.b_init[name]),
+                                                kernel_regularizer=self.l2_reg)
                 else:
-                    cur_input = tf.layers.dense(cur_input, units=struct[i], kernel_initializer=w_init())
+                    cur_input = tf.layers.dense(cur_input, units=struct[i], kernel_initializer=w_init(),
+                                                kernel_regularizer=self.l2_reg
+                                                )
                 if i < self.num_View1_layers - 1:
                     cur_input = lrelu(cur_input)
                     cur_input = tf.layers.dropout(cur_input, drop_prob)
@@ -58,9 +65,12 @@ class Model(object):
                     print('V'+view+'_decoder:=====cur_input=====:' + str(i))
                     cur_input = tf.layers.dense(cur_input, units=struct[i + 1],
                                                 kernel_initializer=tf.constant_initializer(self.W_init[name]),
-                                                bias_initializer=tf.constant_initializer(self.b_init[name]))
+                                                bias_initializer=tf.constant_initializer(self.b_init[name]),
+                                                kernel_regularizer=self.l2_reg)
                 else:
-                    cur_input = tf.layers.dense(cur_input, units=struct[i + 1], kernel_initializer=w_init())
+                    cur_input = tf.layers.dense(cur_input, units=struct[i + 1], kernel_initializer=w_init(),
+                                                kernel_regularizer=self.l2_reg
+                                                )
                 cur_input = lrelu(cur_input)
                 cur_input = tf.layers.dropout(cur_input, drop_prob)
                 print(cur_input.get_shape())
@@ -69,9 +79,13 @@ class Model(object):
             if self.is_init:
                 cur_input = tf.layers.dense(cur_input, units=self.View1_input_dim,
                                             kernel_initializer=tf.constant_initializer(self.W_init[name]),
-                                            bias_initializer=tf.constant_initializer(self.b_init[name]))
+                                            bias_initializer=tf.constant_initializer(self.b_init[name]),
+                                            kernel_regularizer=self.l2_reg
+                                            )
             else:
-                cur_input = tf.layers.dense(cur_input, units=self.View1_input_dim, kernel_initializer=w_init())
+                cur_input = tf.layers.dense(cur_input, units=self.View1_input_dim, kernel_initializer=w_init(),
+                                            kernel_regularizer=self.l2_reg
+                                            )
             # cur_input = tf.nn.sigmoid(cur_input)
             x_recon = cur_input
             print(cur_input.get_shape())
