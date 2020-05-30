@@ -20,7 +20,7 @@ if __name__=='__main__':
     layers = [256, 64, 16]
     View_num=2
     beta_W=10
-    learning_rate=1-5
+    learning_rate=1e-5
     random.seed(9001)
     dataset_config = {'View': ['./Database/'+dataset_name+'/View1.txt','./Database/'+dataset_name+'/View2.txt'],
                       'label_file': './Database/'+dataset_name+'/group.txt'}
@@ -42,7 +42,7 @@ if __name__=='__main__':
             pretrainer.pretrain(graph.ViewData[i], 'V'+str(i+1))
 
     model_config = {
-        'weight_decay': 1.0,
+        'weight_decay': 0.001,
         'View_num':View_num,
         'View': layers,
         'is_init': True,

@@ -21,7 +21,7 @@ if __name__ == '__main__':
     layers = [200,100]
     View_num = 2
     beta_W = 10
-    learning_rate=1e-5
+    learning_rate=1e-6
     random.seed(9001)
     dataset_config = {
         'View': ['./Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/edges.txt'],

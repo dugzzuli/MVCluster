@@ -52,16 +52,15 @@ class Dataset(object):
         viewData=[]
         for i in range(len(self.View)):
             if(self.View[i].find("edges")>0):
-                W = np.zeros((self.num_nodes, self.num_nodes))
+                VData = np.zeros((self.num_nodes, self.num_nodes))
                 lines = linecache.getlines(self.View[i])
                 lines = [line.rstrip('\n') for line in lines]
                 for line in lines:
                     line = line.split(' ')
                     idx1 = node_map[line[0]]
                     idx2 = node_map[line[1]]
-                    W[idx2, idx1] = 1.0
-                    W[idx1, idx2] = 1.0
-                VData=W
+                    VData[idx2, idx1] = 1.0
+                    VData[idx1, idx2] = 1.0
             else:
                 VData=self.load_attr(node_map,self.View[i])
             viewData.append(VData)

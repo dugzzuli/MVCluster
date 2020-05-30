@@ -23,7 +23,7 @@ if __name__ == '__main__':
     learning_rate=1e-7
     random.seed(9001)
     dataset_config = {
-        'View': ['./Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/View3.txt'],
+        'View': ['./Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/View2.txt', './Database/' + dataset_name + '/View3.txt'],
         'label_file': './Database/' + dataset_name + '/group.txt'}
 
     graph = Dataset(dataset_config)
