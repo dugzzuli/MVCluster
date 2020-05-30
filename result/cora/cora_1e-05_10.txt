@@ -1,0 +1,3 @@
+ccsistent_loss=0.0010: acc=0.2954 & nmi=0.1095
+ccsistent_loss=0.0100: acc=0.3375 & nmi=0.1348
+ccsistent_loss=0.1000: acc=0.3131 & nmi=0.1265

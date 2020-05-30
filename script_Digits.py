@@ -9,6 +9,7 @@ import os
 import random
 import tensorflow as tf
 from Model.mModel import MVModel
+from Utils.utils import  mkdir
 
 if __name__ == '__main__':
 
@@ -19,9 +20,10 @@ if __name__ == '__main__':
     layers = [512,128,32]
     View_num = 2
     beta_W = 10
+    learning_rate=1e-6
     random.seed(9001)
     dataset_config = {
-        'View': ['./Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/View2.txt'],
+        'View': ['./Database/' + dataset_name + '/View1.txt', './Database/' + dataset_name + '/View1.txt'],
         'label_file': './Database/' + dataset_name + '/group.txt'}
 
     graph = Dataset(dataset_config)
@@ -45,7 +47,9 @@ if __name__ == '__main__':
         'pretrain_params_path': './Log/' + dataset_name + '/pretrain_params.pkl'
     }
 
-    with open('./result/' + dataset_name+'_'+str(beta_W)+ '.txt', "w") as f:
+    pathResult = './result/' + dataset_name + "/"
+    mkdir(pathResult)
+    with open(pathResult + dataset_name + "_" + str(learning_rate) + '_' + str(beta_W) + '.txt', "w") as f:
         # for beta_i in np.transpose([1,10,50,100,200]):
         #     for alpha_i in [0.001,0.01,0.1,1,10,100]:
         #         for gama_i in [0.001,0.01,0.1,1,10,100]:
@@ -58,7 +62,7 @@ if __name__ == '__main__':
                 'View': layers,
                 'dims': dims,
                 'drop_prob': 0.2,
-                'learning_rate': 1e-6,
+                'learning_rate': learning_rate,
                 'batch_size': 2000,
                 'num_epochs': 1000,
                 'model_path': './Log/' + dataset_name + '/' + dataset_name + '_model.pkl',

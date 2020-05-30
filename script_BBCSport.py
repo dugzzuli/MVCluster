@@ -5,6 +5,7 @@ from Model.model import Model
 from Trainer.trainer import Trainer
 from Trainer.pretrainer import PreTrainer
 from Utils import gpu_info
+from Utils.utils import mkdir
 import os
 import random
 import tensorflow as tf
@@ -19,6 +20,7 @@ if __name__=='__main__':
     layers = [256, 64, 16]
     View_num=2
     beta_W=10
+    learning_rate=1-5
     random.seed(9001)
     dataset_config = {'View': ['./Database/'+dataset_name+'/View1.txt','./Database/'+dataset_name+'/View2.txt'],
                       'label_file': './Database/'+dataset_name+'/group.txt'}
@@ -46,8 +48,9 @@ if __name__=='__main__':
         'is_init': True,
         'pretrain_params_path': './Log/'+dataset_name+'/pretrain_params.pkl'
     }
-    
-    with open('./result/' + dataset_name+'1_'+str(beta_W)+ '.txt', "w") as f:
+    pathResult='./result/'+dataset_name+"/"
+    mkdir(pathResult)
+    with open(pathResult + dataset_name+"_"+str(learning_rate)+'_'+str(beta_W)+ '.txt', "w") as f:
         # for beta_i in np.transpose([1,10,50,100,200]):
         #     for alpha_i in [0.001,0.01,0.1,1,10,100]:
         #         for gama_i in [0.001,0.01,0.1,1,10,100]:
@@ -60,7 +63,7 @@ if __name__=='__main__':
                 'View': layers,
                 'dims':dims,
                 'drop_prob': 0.2,
-                'learning_rate': 1e-5,
+                'learning_rate': learning_rate,
                 'batch_size': 544,
                 'num_epochs': 1000,
                 'model_path': './Log/'+dataset_name+'/'+dataset_name+'_model.pkl',
