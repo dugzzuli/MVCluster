@@ -1,0 +1,2 @@
+model_checkpoint_path: "citeseer_model.pkl"
+all_model_checkpoint_paths: "citeseer_model.pkl"

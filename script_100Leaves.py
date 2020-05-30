@@ -38,7 +38,7 @@ if __name__ == '__main__':
             pretrainer.pretrain(graph.ViewData[i], 'V' + str(i + 1))
 
     model_config = {
-        'weight_decay':10,
+        'weight_decay':10.0,
         'View_num': View_num,
         'View': layers,
         'is_init': True,

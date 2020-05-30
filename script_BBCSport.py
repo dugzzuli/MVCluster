@@ -40,13 +40,14 @@ if __name__=='__main__':
             pretrainer.pretrain(graph.ViewData[i], 'V'+str(i+1))
 
     model_config = {
+        'weight_decay': 1.0,
         'View_num':View_num,
         'View': layers,
         'is_init': True,
         'pretrain_params_path': './Log/'+dataset_name+'/pretrain_params.pkl'
     }
     
-    with open('./result/' + dataset_name+'_'+str(beta_W)+ '.txt', "w") as f:
+    with open('./result/' + dataset_name+'1_'+str(beta_W)+ '.txt', "w") as f:
         # for beta_i in np.transpose([1,10,50,100,200]):
         #     for alpha_i in [0.001,0.01,0.1,1,10,100]:
         #         for gama_i in [0.001,0.01,0.1,1,10,100]:
